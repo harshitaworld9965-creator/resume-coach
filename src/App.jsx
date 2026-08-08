@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from "react"
-import { useResumeAnalysis } from "./hooks/useresumeAnalysis"
+import { useResumeAnalysis } from "./hooks/useResumeAnalysis"
 import { FeedbackPanel } from "./components/FeedbackPanel"
 import { SkeletonLoader } from "./components/SkeletonLoader"
 import { EmptyState } from "./components/EmptyState"
