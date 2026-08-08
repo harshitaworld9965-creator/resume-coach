@@ -1,37 +1,42 @@
 export function EmptyState() {
   return (
-    <div className="h-full min-h-96 flex items-center justify-center">
-      <div className="text-center flex flex-col items-center gap-4 max-w-xs">
-
-        {/* Icon */}
-        <div className="w-16 h-16 rounded-2xl bg-gray-900 border border-gray-700 flex items-center justify-center text-3xl">
-          📋
+    <div style={{ minHeight: 400, display: "flex", alignItems: "center", justifyContent: "center" }}>
+      <div style={{ textAlign: "center", maxWidth: 300 }}>
+        <div style={{
+          width: 64, height: 64, borderRadius: 18,
+          background: "linear-gradient(135deg, #6e6eff22, #a78bfa22)",
+          border: "1px solid #6e6eff33",
+          display: "flex", alignItems: "center", justifyContent: "center",
+          fontSize: 28, margin: "0 auto 20px"
+        }}>
+          ✦
         </div>
-
-        <div className="flex flex-col gap-1">
-          <p className="text-gray-200 font-semibold">No analysis yet</p>
-          <p className="text-gray-500 text-sm leading-relaxed">
-            Paste a job description and your resume on the left, then click Analyze.
-          </p>
+        <p style={{ fontSize: 17, fontWeight: 500, letterSpacing: "-0.01em", marginBottom: 8 }}>
+          Ready to analyze
+        </p>
+        <p style={{ fontSize: 14, color: "#6b6b80", lineHeight: 1.6, marginBottom: 28 }}>
+          Fill in the job description and upload your resume to get your fit score and actionable feedback.
+        </p>
+        <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>
+          {["Paste the job description", "Upload your resume PDF", "Click Analyze"].map((step, i) => (
+            <div key={i} style={{
+              display: "flex", alignItems: "center", gap: 12,
+              background: "#1c1c22", border: "1px solid #2a2a35",
+              borderRadius: 12, padding: "10px 14px", textAlign: "left"
+            }}>
+              <span style={{
+                width: 22, height: 22, borderRadius: "50%",
+                background: "#6e6eff18", border: "1px solid #6e6eff44",
+                color: "#6e6eff", fontSize: 11, fontWeight: 600,
+                display: "flex", alignItems: "center", justifyContent: "center",
+                flexShrink: 0
+              }}>
+                {i + 1}
+              </span>
+              <span style={{ fontSize: 13, color: "#9a9aaa" }}>{step}</span>
+            </div>
+          ))}
         </div>
-
-        {/* Steps hint */}
-        <div className="flex flex-col gap-2 w-full mt-2">
-          {["Paste the job description", "Paste your resume", "Click Analyze"].map(
-            (step, i) => (
-              <div
-                key={i}
-                className="flex items-center gap-3 bg-gray-900 border border-gray-800 rounded-xl px-4 py-3"
-              >
-                <span className="w-5 h-5 rounded-full bg-violet-900 border border-violet-600 text-violet-300 text-xs flex items-center justify-center font-bold flex-shrink-0">
-                  {i + 1}
-                </span>
-                <p className="text-sm text-gray-400">{step}</p>
-              </div>
-            )
-          )}
-        </div>
-
       </div>
     </div>
   )

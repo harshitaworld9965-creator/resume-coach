@@ -1,54 +1,29 @@
-function SkeletonBlock({ className }) {
+function Pulse({ style }) {
   return (
-    <div
-      className={`bg-gray-800 rounded-xl animate-pulse ${className}`}
-    />
+    <div className="animate-pulse" style={{
+      background: "#1c1c22", borderRadius: 10, ...style
+    }} />
   )
 }
 
 export function SkeletonLoader() {
   return (
-    <div className="flex flex-col gap-7">
-
-      {/* Score badge skeleton */}
-      <SkeletonBlock className="h-24 w-full" />
-
-      {/* Summary skeleton */}
-      <div className="flex flex-col gap-2">
-        <SkeletonBlock className="h-3 w-24" />
-        <SkeletonBlock className="h-4 w-full" />
-        <SkeletonBlock className="h-4 w-4/5" />
-        <SkeletonBlock className="h-4 w-3/5" />
-      </div>
-
-      {/* Skills skeleton */}
-      <div className="flex flex-col gap-2">
-        <SkeletonBlock className="h-3 w-28" />
-        <div className="flex gap-2 flex-wrap">
-          <SkeletonBlock className="h-6 w-16 rounded-full" />
-          <SkeletonBlock className="h-6 w-20 rounded-full" />
-          <SkeletonBlock className="h-6 w-14 rounded-full" />
-          <SkeletonBlock className="h-6 w-24 rounded-full" />
+    <div style={{ display: "flex", flexDirection: "column", gap: 24 }}>
+      <div style={{ background: "#1c1c22", border: "1px solid #2a2a35", borderRadius: 18, padding: "24px 28px", display: "flex", gap: 24, alignItems: "center" }}>
+        <Pulse style={{ width: 90, height: 90, borderRadius: "50%" }} />
+        <div style={{ flex: 1, display: "flex", flexDirection: "column", gap: 8 }}>
+          <Pulse style={{ height: 12, width: 80 }} />
+          <Pulse style={{ height: 24, width: 140 }} />
+          <Pulse style={{ height: 20, width: 90, borderRadius: 999 }} />
         </div>
       </div>
-
-      {/* Missing skills skeleton */}
-      <div className="flex flex-col gap-2">
-        <SkeletonBlock className="h-3 w-28" />
-        <div className="flex gap-2 flex-wrap">
-          <SkeletonBlock className="h-6 w-20 rounded-full" />
-          <SkeletonBlock className="h-6 w-16 rounded-full" />
-          <SkeletonBlock className="h-6 w-24 rounded-full" />
+      {[1, 2, 3].map(i => (
+        <div key={i} style={{ background: "#1c1c22", border: "1px solid #2a2a35", borderRadius: 14, padding: "20px", display: "flex", flexDirection: "column", gap: 10 }}>
+          <Pulse style={{ height: 10, width: 100 }} />
+          <Pulse style={{ height: 14, width: "100%" }} />
+          <Pulse style={{ height: 14, width: "80%" }} />
         </div>
-      </div>
-
-      {/* Rewrite cards skeleton */}
-      <div className="flex flex-col gap-2">
-        <SkeletonBlock className="h-3 w-36" />
-        <SkeletonBlock className="h-28 w-full" />
-        <SkeletonBlock className="h-28 w-full" />
-      </div>
-
+      ))}
     </div>
   )
 }

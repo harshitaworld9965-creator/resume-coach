@@ -9,8 +9,6 @@ function App() {
   const [jobDescription, setJobDescription] = useState("")
   const [resumeText, setResumeText] = useState("")
   const { feedback, isLoading, error, analyze } = useResumeAnalysis()
-
-  // Ref to scroll the right panel into view on mobile when feedback arrives
   const feedbackRef = useRef(null)
 
   useEffect(() => {
@@ -23,85 +21,147 @@ function App() {
     analyze(jobDescription, resumeText)
   }
 
+  const canAnalyze = jobDescription.trim() && resumeText.trim() && !isLoading
+
   return (
-    <div className="min-h-screen bg-gray-950 text-white">
+    <div style={{ background: "#0a0a0f", minHeight: "100vh", color: "#f5f5f7" }}>
 
       {/* Header */}
-      <header className="border-b border-gray-800 px-8 py-5">
-        <h1 className="text-2xl font-bold tracking-tight">
-          Resume <span className="text-violet-400">Coach</span>
-        </h1>
-        <p className="text-sm text-gray-400 mt-1">
-          Paste a job description and your resume — get instant, actionable feedback.
-        </p>
+      <header style={{ borderBottom: "1px solid #2a2a35" }} className="px-8 py-6">
+        <div className="max-w-7xl mx-auto flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div style={{
+              width: 32, height: 32, borderRadius: 8,
+              background: "linear-gradient(135deg, #6e6eff, #a78bfa)",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              fontSize: 16
+            }}>
+              ✦
+            </div>
+            <span style={{ fontSize: 17, fontWeight: 600, letterSpacing: "-0.02em" }}>
+              Resume Coach
+            </span>
+          </div>
+          <span style={{ fontSize: 12, color: "#6b6b80", letterSpacing: "0.05em" }}>
+            POWERED BY AI
+          </span>
+        </div>
       </header>
 
-      {/* Main layout */}
-      <main className="max-w-7xl mx-auto px-8 py-8 grid grid-cols-1 lg:grid-cols-2 gap-8">
+      {/* Hero */}
+      <div className="max-w-7xl mx-auto px-8 pt-14 pb-10">
+        <p style={{
+          fontSize: 11, fontWeight: 500, letterSpacing: "0.12em",
+          color: "#6e6eff", textTransform: "uppercase", marginBottom: 12
+        }}>
+          AI Resume Analysis
+        </p>
+        <h2 style={{
+          fontSize: "clamp(28px, 4vw, 48px)",
+          fontWeight: 300,
+          letterSpacing: "-0.03em",
+          lineHeight: 1.1,
+          color: "#f5f5f7",
+          maxWidth: 600,
+          marginBottom: 8
+        }}>
+          Know exactly how well<br />
+          <span style={{ color: "#6e6eff", fontWeight: 500 }}>your resume fits</span> the role.
+        </h2>
+        <p style={{ fontSize: 15, color: "#6b6b80", fontWeight: 400, lineHeight: 1.6 }}>
+          Paste a job description and upload your resume — get a fit score,<br />
+          skill gap analysis, and rewrite suggestions in seconds.
+        </p>
+      </div>
 
-        {/* LEFT — Inputs */}
-        <section className="flex flex-col gap-6">
+      {/* Main */}
+      <main className="max-w-7xl mx-auto px-8 pb-20 grid grid-cols-1 lg:grid-cols-2 gap-6">
 
+        {/* LEFT */}
+        <section className="flex flex-col gap-5">
+
+          {/* JD Input */}
           <div className="flex flex-col gap-2">
-            <label className="text-sm font-medium text-gray-300">
+            <label style={{ fontSize: 12, fontWeight: 500, color: "#6b6b80", letterSpacing: "0.06em", textTransform: "uppercase" }}>
               Job Description
             </label>
             <textarea
-              className="w-full h-48 bg-gray-900 border border-gray-700 rounded-xl p-4 text-sm text-gray-100 placeholder-gray-500 resize-none focus:outline-none focus:border-violet-500 transition-colors"
+              style={{
+                width: "100%", height: 192,
+                background: "#1c1c22",
+                border: "1px solid #2a2a35",
+                borderRadius: 14,
+                padding: "16px",
+                fontSize: 14,
+                color: "#f5f5f7",
+                resize: "none",
+                outline: "none",
+                lineHeight: 1.6,
+                transition: "border-color 0.2s",
+                fontFamily: "inherit",
+              }}
+              onFocus={e => e.target.style.borderColor = "#6e6eff"}
+              onBlur={e => e.target.style.borderColor = "#2a2a35"}
               placeholder="Paste the job description here..."
               value={jobDescription}
               onChange={(e) => setJobDescription(e.target.value)}
             />
           </div>
 
-          <ResumeInput
-  value={resumeText}
-  onChange={(text) => setResumeText(text)}
-/>
-          {/* Analyze button */}
+          {/* Resume Input */}
+          <ResumeInput value={resumeText} onChange={(t) => setResumeText(t)} />
+
+          {/* Button */}
           <button
             onClick={handleAnalyze}
-            disabled={!jobDescription.trim() || !resumeText.trim() || isLoading}
-            className="w-full py-3 rounded-xl font-semibold text-sm bg-violet-600 hover:bg-violet-500 disabled:opacity-40 disabled:cursor-not-allowed transition-colors flex items-center justify-center gap-2"
+            disabled={!canAnalyze}
+            style={{
+              width: "100%",
+              padding: "14px",
+              borderRadius: 14,
+              fontSize: 15,
+              fontWeight: 500,
+              letterSpacing: "-0.01em",
+              background: canAnalyze
+                ? "linear-gradient(135deg, #6e6eff, #a78bfa)"
+                : "#1c1c22",
+              color: canAnalyze ? "#fff" : "#3a3a4a",
+              border: canAnalyze ? "none" : "1px solid #2a2a35",
+              cursor: canAnalyze ? "pointer" : "not-allowed",
+              transition: "all 0.2s",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              gap: 8,
+              fontFamily: "inherit",
+            }}
           >
             {isLoading ? (
               <>
-                {/* Spinner */}
-                <svg
-                  className="animate-spin h-4 w-4 text-white"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <circle
-                    className="opacity-25"
-                    cx="12" cy="12" r="10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                  />
-                  <path
-                    className="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8v8z"
-                  />
+                <svg className="animate-spin" style={{ width: 16, height: 16 }} xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" />
+                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
                 </svg>
-                Analyzing...
+                Analyzing your resume…
               </>
             ) : (
-              "Analyze My Resume"
+              "Analyze My Resume →"
             )}
           </button>
 
-          {/* Error */}
           {error && (
-            <p className="text-sm text-red-400 bg-red-950 border border-red-800 rounded-xl px-4 py-3">
+            <div style={{
+              background: "#1a0f0f", border: "1px solid #3a1a1a",
+              borderRadius: 12, padding: "12px 16px",
+              fontSize: 13, color: "#ff453a"
+            }}>
               {error}
-            </p>
+            </div>
           )}
 
         </section>
 
-        {/* RIGHT — Feedback */}
+        {/* RIGHT */}
         <section ref={feedbackRef}>
           {isLoading ? (
             <SkeletonLoader />
